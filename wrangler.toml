@@ -1,0 +1,14 @@
+name = "test"
+type = "webpack"
+account_id = "a899f1350a246f84fabb9f672ba29525"
+workers_dev = true
+route = ""
+zone_id = ""
+
+[site]
+bucket = "./public"
+entry-point = "workers-site"
+
+[env.production]
+name = "test-prod"
+workers_dev = true
