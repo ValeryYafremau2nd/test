@@ -58,15 +58,18 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install Back End Dependencies
+      - uses: actions/checkout@v2
         run: |
           cd workers-site
           npm install
 
       - name: Build
+        uses: actions/checkout@v2
         #if: github.ref == 'refs/heads/master'
         run: npm run cf:build
 
       - name: Build production
+        uses: actions/checkout@v2
         if: github.ref == 'refs/heads/production'
         run: npm run cf:build
 
