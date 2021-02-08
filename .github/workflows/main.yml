@@ -3,7 +3,7 @@ name: Lint, Test, Build and Deploy
 on: [push]
 
 jobs:
-  lint:
+  lint-and-test:
     name: Lint
     runs-on: ubuntu-latest
     steps:
@@ -12,19 +12,27 @@ jobs:
         with:
           access_token: ${{ github.token }}
       - uses: actions/checkout@v2
+
       - name: Install modules
         run: |
           npm install
           cd workers-site
           npm install
+
       - name: Run linter
         run: |
           npm run lint
           npm run prettier
 
-  build-front-end:
+      - name: Run tests
+        run: |
+          npm run cf:build
+          cd workers-site
+          npm run test
+
+  build:
     name: Build Front End
-    needs: lint
+    needs: lint-and-test
     runs-on: ubuntu-latest
     #if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/production'
     steps:
@@ -48,42 +56,25 @@ jobs:
           name: public
           path: public
 
-  build-and-test-back-end:
-    name: Build and Test Back End
-    needs: build-front-end
+  deploy:
+    name: Deploy
+    needs: build
     runs-on: ubuntu-latest
     #if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/production'
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
 
-      - name: Install Back End Dependencies
-        run: |
-          npm install
-          cd workers-site
-          npm install
-
-      - name: Build
-        #if: github.ref == 'refs/heads/master'
-        run: npm run cf:build
-
-      - name: Build production
+      - name: Publish production
         if: github.ref == 'refs/heads/production'
-        run: npm run cf:build
-
-      - name: Run test
-        run: |
-          cd workers-site
-          npm run test
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build-and-test-back-end
-    name: Deploy
-    steps:
-      - uses: actions/checkout@v2
-      - name: Publish
         uses: cloudflare/wrangler-action@1.3.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_TOKEN }}
           environment: "production"
+
+      - name: Publish staging
+        #if: github.ref == 'refs/heads/master'
+        uses: cloudflare/wrangler-action@1.3.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_TOKEN }}
+          environment: "staging"
