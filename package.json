@@ -8,6 +8,7 @@
     "build:staging": "echo \"build:staging\"",
     "lint": "eslint --ext .js,.jsx",
     "prettier": "prettier ./ --check",
+    "prettier-fix": "prettier ./ --write",
     "cf:build": "./node_modules/.bin/wrangler build",
     "cf:publish:dev": "./node_modules/.bin/wrangler publish",
     "cf:publish:stg": "./node_modules/.bin/wrangler publish --env staging",

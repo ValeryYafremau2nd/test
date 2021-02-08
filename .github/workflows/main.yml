@@ -21,7 +21,7 @@ jobs:
         run: |
           npm run lint
           npm run prettier
-  
+
   build-front-end:
     name: Build Front End
     #needs: lint
@@ -47,7 +47,7 @@ jobs:
         with:
           name: public
           path: public
-  
+
   build-and-test-back-end:
     name: Build and Test Back End
     #needs: lint
@@ -85,4 +85,4 @@ jobs:
         uses: cloudflare/wrangler-action@1.3.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_TOKEN }}
-          environment: 'production'
+          environment: "production"
