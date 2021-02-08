@@ -1,11 +1,25 @@
 {
+  "private": true,
   "name": "workers-site",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "scripts": {
+    "test": "mocha test/ --timeout=60000"
+  },
+  "dependencies": {
+    "@cloudflare/kv-asset-handler": "~0.0.11",
+    "cloudflare-worker-rest-api": "^1.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "node-fetch": "^2.6.1",
+    "validate.js": "^0.13.1"
+  },
+  "devDependencies": {
+    "@dollarshaveclub/cloudworker": "^0.1.2",
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1",
+    "request": "^2.88.2"
+  }
 }

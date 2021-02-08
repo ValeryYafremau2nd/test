@@ -12,3 +12,7 @@ entry-point = "workers-site"
 [env.production]
 name = "test-prod"
 workers_dev = true
+
+[env.staging]
+name = "test-stg"
+workers_dev = true
