@@ -24,7 +24,7 @@ jobs:
 
   build-front-end:
     name: Build Front End
-    #needs: lint
+    needs: lint
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/test-merge' || github.ref == 'refs/heads/production'
     steps:
@@ -50,7 +50,7 @@ jobs:
 
   build-and-test-back-end:
     name: Build and Test Back End
-    #needs: lint
+    needs: build-front-end
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/test-merge' || github.ref == 'refs/heads/production'
     steps:
